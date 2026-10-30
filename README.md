@@ -2,11 +2,9 @@
 
 **Create images and videos through conversation.** Boson Studio brings a simple chat interface and media gallery to MiniMax H3 running in ComfyUI. Describe an idea, attach a reference, or ask for a change. Your connected AI assistant turns the request into a generation, while Boson Studio prepares the workflow and model-specific prompt behind the scenes.
 
-Use it on desktop or from your phone.
+Use it on desktop or from your phone.  Times have been deliberately shortened for brevity:
 
-[![Watch the Boson Studio demo](docs/BosunStudio-Demo.jpg)](https://github.com/clarvalon/BosonStudio/raw/refs/heads/main/docs/BosunStudio-Demo.mp4)
-
-*Click the preview to watch the quick demo (times have been deliberately shortened for brevity).* 
+https://github.com/user-attachments/assets/e4d91665-ea80-4ce9-89a2-5d94600ecd14
 
 ## What you can do
 
