@@ -4,7 +4,9 @@
 
 Use it on desktop or from your phone.
 
-[Watch the Boson Studio demo](docs/BosunStudio-Demo.mp4)
+[![Watch the Boson Studio demo](docs/BosunStudio-Demo.jpg)](docs/BosunStudio-Demo.mp4)
+
+*Click the preview to watch the quick demo.*
 
 ## What you can do
 
