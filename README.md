@@ -6,7 +6,7 @@ Use it on desktop or from your phone.
 
 [![Watch the Boson Studio demo](docs/BosunStudio-Demo.jpg)](https://github.com/clarvalon/BosonStudio/raw/refs/heads/main/docs/BosunStudio-Demo.mp4)
 
-*Click the preview to watch the quick demo.*
+*Click the preview to watch the quick demo (times have been deliberately shortened for brevity).* 
 
 ## What you can do
 
