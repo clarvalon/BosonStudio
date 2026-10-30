@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f6f2">
+  <meta name="description" content="A conversational creative studio. Turn ideas and references into images and videos with your own models.">
+  <title>Boson Studio</title>
+  <link rel="icon" href="/mark.svg" type="image/svg+xml">
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/theme.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <div class="studio">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Boson Studio home"><img src="/mark.svg" width="34" height="34" alt=""><span>Boson<span class="brand-light">Studio</span></span></a>
+      <div class="top-center">MiniMax H3 · ComfyUI</div>
+      <div class="top-actions"><button class="connection" id="connection" title="Configure connections"><span class="status-dot"></span><span id="connection-label">Set up your studio</span></button><button class="icon-button" id="settings-open" aria-label="Open settings" data-icon="settings"></button></div>
+    </header>
+    <main class="workspace" id="workspace">
+      <section class="chat-panel" id="chat-panel" aria-label="Creative chat">
+        <div class="panel-heading"><div class="panel-title"><span class="heading-icon" data-icon="chat"></span><h1>Chat</h1></div><button class="icon-button" id="new-chat" aria-label="Start a new chat" title="New chat" data-icon="newChat"></button></div>
+        <div class="chat-scroll" id="chat-scroll">
+          <div class="welcome" id="welcome">
+            <h2>Create images<br><span>and videos.</span></h2>
+            <p>Describe your request or upload reference media.<br>Use the conversation to create and refine results.</p>
+            <div class="suggestions">
+              <button class="suggestion" data-prompt="Create a cinematic 5-second video of a tiny astronaut discovering a glowing garden on the moon. Slow camera push, warm light, quiet atmospheric sound."><span class="suggestion-icon peach" data-icon="video"></span><span><strong>Generate a video</strong><small>Create a short cinematic sequence.</small></span><span class="suggestion-arrow" data-icon="arrowUpRight"></span></button>
+              <button class="suggestion" data-prompt="Create a square editorial photograph of an orange chair standing in a field of soft blue wildflowers. Morning light, playful composition, subtle film grain."><span class="suggestion-icon sage" data-icon="image"></span><span><strong>Generate an image</strong><small>Describe the subject, setting and style.</small></span><span class="suggestion-arrow" data-icon="arrowUpRight"></span></button>
+              <button class="suggestion" id="reference-suggestion"><span class="suggestion-icon lilac" data-icon="sparkles"></span><span><strong>Start with a reference</strong><small>Upload an image, video or audio reference.</small></span><span class="suggestion-arrow" data-icon="plus"></span></button>
+            </div>
+          </div>
+          <div class="messages" id="messages" aria-live="polite" aria-relevant="additions"></div>
+          <div class="thinking" id="thinking" hidden><img src="/mark.svg" width="25" height="25" alt=""><span>Processing request</span><span class="thinking-dots"><i></i><i></i><i></i></span></div>
+        </div>
+        <div class="composer-area">
+          <details class="chat-examples" id="chat-examples">
+            <summary>Examples <span>Explore what you can create</span></summary>
+            <div class="example-list">
+              <button type="button" data-prompt="Create a square editorial photograph of a blue ceramic cup on a wooden table in warm morning light."><strong>Create an image</strong><span>Start with a description.</span></button>
+              <button type="button" data-prompt="Create a 5-second video of a paper boat drifting along a quiet stream, with gentle water sounds and a slow camera push."><strong>Create a video</strong><span>Describe motion, camera and sound.</span></button>
+              <button type="button" data-prompt="Animate the attached image for 5 seconds with subtle natural movement. Preserve its framing and appearance."><strong>Animate an image</strong><span>Attach one starting image.</span></button>
+              <button type="button" data-prompt="Create a 5-second animation using the first attached image as the opening frame and the second as the ending frame. Make the transition natural and continuous."><strong>Connect two frames</strong><span>Attach starting and ending images, in order.</span></button>
+              <button type="button" data-prompt="Using the attached image, change the background to a sunlit garden. Preserve the main subject, clothing and composition."><strong>Edit or combine images</strong><span>Attach images and describe what to change or combine.</span></button>
+              <button type="button" data-prompt="Create a 5-second video featuring the subject from the attached image. Use any attached video to guide movement and any attached audio to guide the sound. Preserve the subject's appearance."><strong>Create with references</strong><span>Guide video with images, motion clips or audio.</span></button>
+              <button type="button" data-prompt="Add natural ambient sound and gentle background music to the attached video. Keep the original footage and replace its existing soundtrack."><strong>Add audio to a video</strong><span>Attach a video up to 15 seconds long.</span></button>
+              <button type="button" data-prompt="Extend the attached video by 5 seconds. Continue the action smoothly from its ending and keep the entire original clip."><strong>Extend a video</strong><span>Attach a video up to 60 seconds long.</span></button>
+              <button type="button" data-prompt="Describe what you see in the attached image, including the subjects, setting, colors and composition. Do not generate anything."><strong>Describe an image</strong><span>Attach an image and ask questions about it.</span></button>
+            </div>
+          </details>
+          <div class="attachment-tray" id="attachment-tray" hidden></div>
+          <form class="composer" id="composer"><label class="sr-only" for="message-input">Message Boson</label><textarea id="message-input" rows="2" placeholder="What would you like to create?" maxlength="16000"></textarea><div class="composer-bottom"><div class="composer-tools"><button type="button" class="icon-button attach-button" id="attach" aria-label="Attach images, video or audio" data-icon="plus"></button><span class="composer-hint">Attach reference media</span></div><button type="submit" class="send-button" id="send" aria-label="Send message" data-icon="arrowUp"></button></div></form>
+
+        </div>
+      </section>
+      <div class="split-handle" id="split-handle" role="separator" aria-label="Resize chat and gallery" aria-orientation="vertical" tabindex="0"></div>
+      <section class="gallery-panel" id="gallery-panel" aria-label="Media gallery">
+        <div class="panel-heading"><div class="panel-title"><span class="heading-icon" data-icon="grid"></span><h2>Your gallery</h2><span class="count-badge" id="gallery-count">0</span></div><span class="generation-indicator" id="job-summary" role="status" hidden></span></div>
+        <div class="gallery-toolbar"><div class="filter-tabs" role="group" aria-label="Filter gallery"><button class="filter active" data-filter="all" aria-pressed="true">All media</button><button class="filter" data-filter="image" aria-pressed="false">Images</button><button class="filter" data-filter="video" aria-pressed="false">Videos</button><button class="filter" data-filter="audio" aria-pressed="false">Audio</button></div><button class="icon-button" id="gallery-upload" aria-label="Upload media to gallery" title="Upload media" data-icon="upload"></button></div>
+        <div class="gallery-scroll" id="gallery-scroll"><div class="gallery-empty" id="gallery-empty"><div class="empty-art" aria-hidden="true"><div class="art-card art-back"><span></span><i></i></div><div class="art-card art-front"><span class="art-sun"></span><span class="art-hill-one"></span><span class="art-hill-two"></span><span class="art-caption"></span></div><span class="art-star star-one">✦</span><span class="art-star star-two">✧</span></div><h3>No media yet</h3><p>Generated results and uploaded references<br>will appear here.</p><button class="text-button" id="empty-upload">Upload reference media <span data-icon="arrowRight"></span></button></div><div class="gallery-grid" id="gallery-grid"></div><div class="no-results" id="no-results" hidden>No media of this kind yet.</div></div>
+
+      </section>
+    </main>
+    <nav class="mobile-nav" aria-label="Workspace views"><button class="mobile-tab active" data-view="chat" aria-pressed="true"><span data-icon="chat"></span>Chat</button><button class="mobile-tab" data-view="gallery" aria-pressed="false"><span data-icon="grid"></span>Gallery<span class="mobile-count" id="mobile-count">0</span></button></nav>
+  </div>
+  <input type="file" id="file-input" multiple accept="image/png,image/jpeg,image/webp,image/gif,video/mp4,video/webm,video/quicktime,audio/*" hidden>
+  <dialog id="settings-dialog" class="settings-dialog"><form id="settings-form"><div class="dialog-heading"><div><span class="eyebrow">CONFIGURATION</span><h2>Studio settings</h2></div><button type="button" class="icon-button" id="settings-close" aria-label="Close settings" data-icon="close"></button></div><p class="dialog-intro">Configure your services and appearance. Credentials are stored on the machine running Boson Studio.</p>
+    <section class="appearance-section"><div><h3>Appearance</h3><p>Follow your system setting or choose a theme.</p></div><label for="theme-choice"><span class="sr-only">Color theme</span><select id="theme-choice" class="theme-select"><option value="system">System default</option><option value="light">Light</option><option value="dark">Dark</option></select></label></section>
+    <section class="connection-section"><div class="section-heading"><span class="setting-symbol peach" data-icon="orbit"></span><div><h3>ComfyUI</h3><p>Image and video generation service.</p></div></div><label>Instance URL<input name="comfyUrl" type="url" required placeholder="http://127.0.0.1:8188" autocomplete="off"></label><label>Bearer token <span>optional</span><input name="comfyToken" type="password" placeholder="Leave blank to keep an existing token" autocomplete="new-password"></label><label class="checkbox-label"><input type="checkbox" name="clearComfyToken"> Remove saved bearer token</label><div class="test-row"><button type="button" class="secondary-button" id="test-comfy">Connect & discover models</button><span class="test-result" id="comfy-result" role="status"></span></div><div id="comfy-diagnostics" class="node-diagnostics" hidden></div></section>
+    
+    <section class="connection-section"><div class="section-heading"><span class="setting-symbol lilac" data-icon="chat"></span><div><h3>Language model</h3><p>A local or cloud API with tool calling.</p></div></div><label>API base URL<input name="llmUrl" type="url" required placeholder="http://127.0.0.1:11434/v1" autocomplete="off"></label><div class="field-pair"><label>Model<input name="llmModel" list="llm-models" placeholder="Your model identifier" autocomplete="off"><datalist id="llm-models"></datalist></label><label>API key <span>optional</span><input name="llmKey" type="password" placeholder="Leave blank to keep existing" autocomplete="new-password"></label></div><label class="checkbox-label"><input type="checkbox" name="clearLlmKey"> Remove saved API key</label><div class="test-row"><button type="button" class="secondary-button" id="test-llm">Check connection</button><span class="test-result" id="llm-result" role="status"></span></div><p class="field-note">Use an OpenAI-compatible API base URL, usually ending in /v1. A chat website URL won’t work.</p></section>
+    <details class="model-settings" id="model-settings"><summary>Model files <span>Selected from your ComfyUI installation</span></summary><p class="field-note">Connect ComfyUI above to discover files. Check the selections before your first generation. Use full H3 weights; distilled models can require a different sampling recipe.</p><label>Video / first & last frame model<input name="videoModel" list="diffusion-models" placeholder="H3 T2V / FL2VA diffusion model"></label><label>Reference model<input name="referenceModel" list="diffusion-models" placeholder="H3 Ref2VA diffusion model"></label><datalist id="diffusion-models"></datalist><label>Text encoder<input name="textEncoder" list="text-models" placeholder="H3 Qwen3-VL text encoder"></label><datalist id="text-models"></datalist><label>Video VAE<input name="videoVae" list="vae-models" placeholder="H3 video VAE"></label><label>Audio VAE<input name="audioVae" list="vae-models" placeholder="H3 audio VAE"></label><datalist id="vae-models"></datalist></details>
+    <div class="settings-error" id="settings-error" role="alert" hidden></div><footer class="dialog-footer"><span>Settings are stored locally.</span><button type="submit" class="primary-button" id="save-settings">Save connections <span data-icon="arrowRight"></span></button></footer>
+  </form></dialog>
+  <dialog id="preview-dialog" class="preview-dialog"><div class="preview-top"><span id="preview-title"></span><button class="icon-button" id="preview-close" aria-label="Close preview" data-icon="close"></button></div><div id="preview-media" class="preview-media"></div><div class="preview-info"><div class="prompt-controls" id="prompt-controls"><span>Prompt</span><div class="prompt-switch" role="group" aria-label="Prompt version"><button id="prompt-simple" aria-pressed="true">Simple</button><button id="prompt-final" aria-pressed="false">Final</button></div></div><p id="preview-prompt" class="prompt-text"></p><p id="prompt-note" class="prompt-note" hidden></p><div id="preview-metadata" class="preview-metadata"></div><div class="preview-actions"><button class="primary-button" id="preview-use">Use in chat <span data-icon="arrowRight"></span></button><a class="secondary-button" id="preview-download" download>Download <span data-icon="download"></span></a></div></div></dialog>
+  <dialog id="confirm-dialog" class="confirm-dialog"><h2>Start a new chat?</h2><p>Start a new conversation. Your gallery and ongoing generations will stay here.</p><div class="confirm-actions"><button class="secondary-button" id="confirm-cancel">Cancel</button><button class="primary-button" id="confirm-new">New chat</button></div></dialog>
+  <dialog id="delete-dialog" class="confirm-dialog"><h2>Remove from gallery?</h2><p id="delete-description"></p><div class="confirm-actions"><button class="secondary-button" id="delete-cancel">Cancel</button><button class="primary-button" id="delete-confirm">Remove</button></div></dialog>
+  <div class="toast" id="toast" role="status" hidden></div><div class="drop-overlay" id="drop-overlay" hidden><span data-icon="upload"></span><h2>Upload reference media</h2><p>Drop your images, videos or audio here.</p></div>
+</body>
+</html>

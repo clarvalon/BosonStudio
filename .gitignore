@@ -1,0 +1,34 @@
+# Local application data: credentials, conversation, jobs and all media
+/data/
+
+# Dependencies, test coverage and local output
+node_modules/
+coverage/
+/audit-reports/
+/outputs/
+/renders/
+/uploads/
+*.log
+
+# Local environment files; an intentionally sanitized template may be committed
+.env
+.env.*
+!.env.example
+
+# Internal acceptance notes, not needed to use or develop the application
+/docs/WORKFLOW-AUDIT.md
+
+# Model weights are installed separately in ComfyUI
+*.safetensors
+*.gguf
+*.ckpt
+*.pt
+*.pth
+*.onnx
+
+# Machine-specific editor / OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+desktop.ini
